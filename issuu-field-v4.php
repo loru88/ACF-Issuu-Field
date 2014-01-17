@@ -19,7 +19,7 @@ class acf_field_issuu extends acf_field
 	function __construct()
 	{
 		// vars
-		$this->name = 'issuu-field';
+		$this->name = 'issuu';
 		$this->label = __('Issuu');
 		$this->category = __("Choice",'acf'); // Basic, Content, Choice, etc
 		$this->defaults = array(
@@ -133,22 +133,36 @@ class acf_field_issuu extends acf_field
 		echo "<pre>";
 		var_dump($field);
 		echo "</pre>";
-		include get_stylesheet_directory().'/util/issuu.php';
+		include 'IssuuClient.php';
 		
 $issuu = new IssuuClient($field['public_api_key'],$field['private_api_key'], 'http://api.issuu.com/1_0');
 
 $issuu->openAction('issuu.documents.list');
+
 $issuu->executeAction();
 $catalogues = $issuu->getResponse();
 
-		?>
+$issuu->closeAction();
+
+?>
 		<div>
-		<pre>
-<?php var_dump($catalogues) ?>
-</pre>
+
+<input type="hidden" name="<?php echo $field['name']; ?>[]" value="<?php echo $catalogue['rsp']['_content']['document']['username']; ?>"/>
+<select name="<?php echo $field['name']; ?>[]">
+<?php foreach($catalogues['rsp']['_content']['result']['_content'] as $catalogue): ?>
+
+<option value="<?php echo $catalogue['document']['name']; ?>"  <?php if( $catalogue['document']['name'] == $field['value'] ) echo 'selected="selected"'; ?> >
+<?php echo $catalogue['document']['title']; ?>
+</option>
+<?php endforeach; ?>
+</select>
+
 		</div>
 		<?php
-		$issuu->closeAction();
+
+		echo '<pre>';
+		 var_dump($catalogue); 
+		echo '</pre>';
 	}
 
 
