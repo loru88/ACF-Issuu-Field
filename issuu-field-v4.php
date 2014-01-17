@@ -147,7 +147,7 @@ $issuu->closeAction();
 ?>
 		<div>
 
-<input type="hidden" name="<?php echo $field['name']; ?>[]" value="<?php echo $catalogue['rsp']['_content']['document']['username']; ?>"/>
+<input type="hidden" name="<?php echo $field['name']; ?>[]" value="<?php echo $catalogues['rsp']['_content']['result']['_content']['document'][0]['username']; ?>"/>
 <select name="<?php echo $field['name']; ?>[]">
 <?php foreach($catalogues['rsp']['_content']['result']['_content'] as $catalogue): ?>
 
@@ -161,7 +161,7 @@ $issuu->closeAction();
 		<?php
 
 		echo '<pre>';
-		 var_dump($catalogue); 
+		 var_dump($catalogues); 
 		echo '</pre>';
 	}
 
