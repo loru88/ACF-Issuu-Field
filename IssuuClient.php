@@ -212,6 +212,13 @@ class IssuuClient {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $this->_dataString);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    
+    if( defined('WP_PROXY_PORT') && defined('WP_PROXY_HOST') ){
+    curl_setopt($ch, CURLOPT_PROXYPORT, WP_PROXY_PORT);
+    curl_setopt($ch, CURLOPT_PROXYTYPE, 'HTTP');
+    curl_setopt($ch, CURLOPT_PROXY, WP_PROXY_HOST);
+    }
+	
     $this->prepareReceivedData(curl_exec($ch));
   }
 
